@@ -68,7 +68,7 @@ https://github.com/yuzu-krs/split-graph/blob/main/auto-split-plot.zip
 ![image](https://github.com/yuzu-krs/split-graph/assets/89998242/91934894-aba9-433e-b124-a8aa5acacba1)
 <br>
 
-14. 2つのフォルダを選択する
+14. 2つのフォルダを選択する(選択したそれぞれのフォルダの配下のcsvファイルの平均がグラフとしてプロットされる)
 
 ![image](https://github.com/yuzu-krs/split-graph/assets/89998242/55ab642f-2d77-467e-9e4e-7f82c10ec3ef)
 <br>
