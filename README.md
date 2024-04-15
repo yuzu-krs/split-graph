@@ -33,7 +33,7 @@ https://github.com/yuzu-krs/split-graph/blob/main/auto-split-plot.zip
 ![image](https://github.com/yuzu-krs/split-graph/assets/89998242/9c8c011a-c75c-4cce-91c1-33a81b6adb20)
 <br>
 5. サーバからダウンロードしたcsvファイルを分割しますので1を入力 
-※分割は，x,yのyの最初の値で区切られます．yの次の行が0ならば0で分割,64なら次の64が来るまでで分割される．
+※分割は，y,xのxの最初の値で区切られます．xの次の行が0ならば0で分割,64なら次の64が来るまで分割される．
 
 ![image](https://github.com/yuzu-krs/split-graph/assets/89998242/f366ec00-d586-4603-9f75-468cc7dba705)
 <br>
