@@ -1,4 +1,4 @@
-('C:\\Users\\aatya\\OneDrive\\デスクトップ\\split-graph\\build\\split-graph\\PYZ-00.pyz',
+('C:\\Users\\aatya\\OneDrive\\ドキュメント\\split-graph\\build\\split-graph\\PYZ-00.pyz',
  [('OpenSSL',
    'C:\\Users\\aatya\\miniconda3\\Lib\\site-packages\\OpenSSL\\__init__.py',
    'PYMODULE'),

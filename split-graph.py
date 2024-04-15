@@ -1,8 +1,22 @@
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
-from tkinter import Tk, simpledialog, filedialog
 import uuid
+import matplotlib.pyplot as plt
+from tkinter import Tk, filedialog, simpledialog
+
+def select_csv_file():
+    root = Tk()
+    root.withdraw()
+    csv_file = filedialog.askopenfilename(title="CSVファイルを選択", filetypes=[("CSVファイル", "*.csv")])
+    root.destroy()
+    return csv_file
+
+def enter_folder_name():
+    root = Tk()
+    root.withdraw()
+    folder_name = simpledialog.askstring("入力", "フォルダー名を入力してください:")
+    root.destroy()
+    return folder_name
 
 def select_directories():
     root = Tk()
@@ -25,56 +39,9 @@ def get_user_input():
     root.destroy()
     return x_label, y_label, title
 
-def plot_graph(directories, x_label='n', y_label='μ', title='ディレクトリの比較', figsize=(10, 8), fontsize=24):
-    plt.figure(figsize=figsize)
-    
-    dfs_list = []
-    for directory, _ in directories:
-        file_paths = [os.path.join(directory, file) for file in os.listdir(directory) if file.endswith('.csv')]
-        dfs = [pd.read_csv(file) for file in file_paths]
-        dfs_list.append(dfs)
-
-    μ_averages = []
-    for dfs in dfs_list:
-        μ_values = [df['μ'] for df in dfs]
-        μ_average = sum(μ_values) / len(μ_values)
-        μ_averages.append(μ_average)
-
-    n_values = dfs_list[0][0]['n']
-
-    for (directory, label), μ_average in zip(directories, μ_averages):
-        plt.plot(n_values, μ_average, label=label)
-
-    plt.xlabel(x_label, fontsize=fontsize)
-    plt.ylabel(y_label, fontsize=fontsize)
-    plt.title(title, fontsize=fontsize+4, fontweight='bold')  
-    plt.ylabel(y_label, fontsize=fontsize, rotation=0, labelpad=20)
-    plt.xticks(fontsize=fontsize)
-    plt.yticks(fontsize=fontsize)
-    plt.legend(fontsize=fontsize)
-    plt.grid(True)
-    plt.show()
-
-def select_csv_file():
-    root = Tk()
-    root.withdraw()
-    csv_file = filedialog.askopenfilename(title="CSVファイルを選択", filetypes=[("CSVファイル", "*.csv")])
-    root.destroy()
-    return csv_file
-
-def enter_folder_name():
-    root = Tk()
-    root.withdraw()
-    folder_name = simpledialog.askstring("入力", "フォルダー名を入力してください:")
-    root.destroy()
-    return folder_name
-
 def main():
-    root = Tk()
-    root.withdraw()
     choice = simpledialog.askinteger("選択", "実行するプログラムを選択してください。\n1: ブロックごとにCSVファイルに保存\n2: ディレクトリの比較グラフをプロット")
-    root.destroy()
-
+    
     if choice == 1:
         # ユーザーにCSVファイルを選択してもらう
         csv_file = select_csv_file()
@@ -92,20 +59,21 @@ def main():
         save_folder = os.path.join(os.getcwd(), folder_name)
         os.makedirs(save_folder, exist_ok=True)
 
-        # CSVファイルを読み込む際にn列のデータ型を整数型に指定して読み込む
-        data = pd.read_csv(csv_file, dtype={'n': int})
+        # CSVファイルを読み込む
+        data = pd.read_csv(csv_file)
 
-        # nが0の行を検出して、ブロックごとに分割
+        # 最初のnの値でブロックを分割
         blocks = []
         current_block = []
+        first_n_value = None
         for index, row in data.iterrows():
-            if row['n'] == 0:
+            if first_n_value is None:
+                first_n_value = row['x']
+            if row['x'] == first_n_value:
                 if current_block:
                     blocks.append(current_block)
                     current_block = []
-                current_block.append({'μ': row['μ'], 'n': row['n']})
-            else:
-                current_block.append(row)
+            current_block.append(row)
 
         # 最後のブロックを追加
         if current_block:
@@ -115,14 +83,15 @@ def main():
         for i, block in enumerate(blocks):
             block_df = pd.DataFrame(block)
             # UUIDを使用してファイル名を生成
-            file_name = f'n_zero_data_{uuid.uuid4()}.csv'
+            file_name = f'n_first_value_data_{uuid.uuid4()}.csv'
             file_path = os.path.join(save_folder, file_name)
             block_df.to_csv(file_path, index=False)
-        
+
         print(f"フォルダー '{folder_name}' にファイルを保存しました。")
 
     elif choice == 2:
         directories = select_directories()
+
         x_label, y_label, title = get_user_input()
 
         if directories and x_label and y_label and title:
@@ -131,6 +100,36 @@ def main():
             print("有効な入力をしてください。")
     else:
         print("無効な選択です。")
+
+def plot_graph(directories, x_label='x', y_label='y', title='ディレクトリの比較', figsize=(10, 8), fontsize=24):
+    plt.figure(figsize=figsize)
+    
+    dfs_list = []
+    for directory, _ in directories:
+        file_paths = [os.path.join(directory, file) for file in os.listdir(directory) if file.endswith('.csv')]
+        dfs = [pd.read_csv(file) for file in file_paths]
+        dfs_list.append(dfs)
+
+    μ_averages = []
+    for dfs in dfs_list:
+        μ_values = [df['y'] for df in dfs]
+        μ_average = sum(μ_values) / len(μ_values)
+        μ_averages.append(μ_average)
+
+    n_values = dfs_list[0][0]['x']
+
+    for (directory, label), μ_average in zip(directories, μ_averages):
+        plt.plot(n_values, μ_average, label=label)
+
+    plt.xlabel(x_label, fontsize=fontsize)
+    plt.ylabel(y_label, fontsize=fontsize)
+    plt.title(title, fontsize=fontsize+4, fontweight='bold')  # タイトルのフォントサイズを大きくして太字に設定
+    plt.ylabel(y_label, fontsize=fontsize, rotation=0, labelpad=20)
+    plt.xticks(fontsize=fontsize)
+    plt.yticks(fontsize=fontsize)
+    plt.legend(fontsize=fontsize)
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
     main()
