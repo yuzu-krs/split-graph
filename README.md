@@ -85,7 +85,15 @@ https://github.com/yuzu-krs/split-graph/blob/main/auto-split-plot.zip
 14. 完成
 ![image](https://github.com/yuzu-krs/split-graph/assets/89998242/95fd3fdb-e113-4fdb-8f87-d56e02201bbe)
 
+3を選択
+![image](https://github.com/yuzu-krs/split-graph/assets/89998242/ca837c5b-3c54-463c-ab4a-193be18548f4)
 
+csvファイル1,2を選択してcsv1/csv2の結果がcsvファイルで生成される．(※同じ行数であること)
+![image](https://github.com/yuzu-krs/split-graph/assets/89998242/4273d200-df3f-4e5d-b633-3fa9d350a1f8)
 
+4を選択
+![image](https://github.com/yuzu-krs/split-graph/assets/89998242/ca837c5b-3c54-463c-ab4a-193be18548f4)
 
+読み込むcsvファイルが入っているディレクトリを選択して x,yの名前を入力すると表が作成される．
+![image](https://github.com/yuzu-krs/split-graph/assets/89998242/d2724f65-1d4b-4ff2-a0cc-6172446feaed)
 
