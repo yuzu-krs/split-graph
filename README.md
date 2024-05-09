@@ -25,7 +25,7 @@ https://github.com/yuzu-krs/split-graph/issues/2#issue-2244590793
 
 
 3. デスクトップアプリをダウンロードする
-https://github.com/yuzu-krs/split-graph/blob/main/auto-split-plot.zip
+[https://github.com/yuzu-krs/split-graph/blob/main/auto-split-plot.zip](https://github.com/yuzu-krs/split-graph/tree/main/dist)
 <br>
 
 4. 先ほどのcsvファイルをダウンロードしたディレクトリに解凍したsplit-graph.exeを実行してください．
