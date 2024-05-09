@@ -75,7 +75,7 @@ def select_file(label):
     label.config(text=filepath)
     return filepath
 
-def process_files():
+def process_files(file1_label, file2_label, output_entry, result_text):
     file1_path = file1_label.cget("text")
     file2_path = file2_label.cget("text")
     output_filename = output_entry.get()
@@ -96,9 +96,7 @@ def process_files():
         output_path = os.path.join(os.getcwd(), output_filename)
 
         result_df.to_csv(output_path, index=False)
-        result_text.set("処理が完了しました。")      
-        
-
+        result_text.set("処理が完了しました。")  
         
 def main():
     choice = simpledialog.askinteger("選択", "実行するプログラムを選択してください。\n1: ブロックごとにCSVファイルに保存\n2: ディレクトリの比較グラフをプロット\n3: csvファイルの割り算\n4: 表の自動生成")
@@ -177,15 +175,15 @@ def main():
         output_entry = tk.Entry(output_frame)
         output_entry.pack(side=tk.LEFT)
 
-        process_button = tk.Button(root, text="処理実行", command=process_files)
-        process_button.pack(pady=10)
-
         result_text = tk.StringVar()
         result_label = tk.Label(root, textvariable=result_text)
         result_label.pack()
 
+        process_button = tk.Button(root, text="処理実行", command=lambda: process_files(file1_label, file2_label, output_entry, result_text))
+        process_button.pack(pady=10)
+
         root.mainloop()
-        
+            
     elif choice==4:
         # Function to calculate averages and generate compact table image
         def calculate_and_generate():
